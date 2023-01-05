@@ -1,5 +1,5 @@
 # dhcpcd-container
-Minimal container builds for dhcpcd
+Minimal container builds for [dhcpcd](https://github.com/NetworkConfiguration/dhcpcd)
 
 # Usage
 
