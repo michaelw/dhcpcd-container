@@ -1,7 +1,7 @@
-FROM debian:11-slim
+FROM debian:12-slim
 
 COPY scripts/install_packages /usr/sbin/install_packages
 
-RUN /usr/sbin/install_packages "dhcpcd5=7.1.0-2*"
+RUN /usr/sbin/install_packages "dhcpcd=9.4.1-15*"
 
 CMD ["dhcpcd", "-B", "-d"]
