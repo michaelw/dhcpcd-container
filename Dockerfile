@@ -1,4 +1,4 @@
-FROM debian:12-slim
+FROM debian:bookworm-20230202-slim
 
 COPY scripts/install_packages /usr/sbin/install_packages
 
