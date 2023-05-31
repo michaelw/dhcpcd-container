@@ -21,6 +21,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     strategy:
+      fail-fast: false
       matrix:
         platform:
           - { name: linux/amd64, slug: linux-amd64 } 
@@ -62,12 +63,20 @@ jobs:
             type=semver,pattern={{version}}
             type=sha
 
-      - name: Build and push
+      - name: Build locally
         uses: docker/build-push-action@v2
         with:
           context: .
           platforms: ${{ matrix.platform.name }}
           load: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: ${{ matrix.platform.name }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
