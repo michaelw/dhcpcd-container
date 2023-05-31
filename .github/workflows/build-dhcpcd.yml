@@ -72,8 +72,8 @@ jobs:
       - name: Extract rootfs
         run: |
           ID=$(docker create ghcr.io/michaelw/dhcpcd)
-          docker export "$ID" | bzip2 > dhcpcd-{{version}}-$(uname -a).tar.bz2
+          docker export "$ID" | bzip2 > dhcpcd-${{ steps.meta.outputs.version }}-$(uname -a).tar.bz2
       
       - uses: actions/upload-artifact@v3
         with:
-          path: dhcpcd-{{version}}-${{ matrix.platform }}.tar.bz2
+          path: dhcpcd-${{ steps.meta.outputs.version }}-${{ matrix.platform }}.tar.bz2
