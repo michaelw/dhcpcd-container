@@ -13,9 +13,11 @@ on:
       - 'main'
       - 'dev'
 
-# permissions for pushing to ghcr.io
 permissions: 
+  # permissions for pushing to ghcr.io
   packages: write
+  # releases
+  contents: write
 
 jobs:
   build:
