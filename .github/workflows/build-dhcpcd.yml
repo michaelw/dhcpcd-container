@@ -90,7 +90,7 @@ jobs:
             ID=$(docker create ghcr.io/michaelw/dhcpcd:${{ steps.meta.outputs.version }})
             DIST="dhcpcd-rootfs_${{ steps.meta.outputs.version }}_${{ matrix.platform.slug }}.tar.bz2"
             docker export "$ID" | bzip2 > "$DIST"
-            echo "::set-output name=asset_path::${DIST}"
+            echo "asset_path=${DIST}" >> $GITHUB_OUTPUT
 
       - name: Upload rootfs asset
         uses: softprops/action-gh-release@v1
