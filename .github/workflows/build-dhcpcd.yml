@@ -82,10 +82,17 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Extract rootfs
+        id: rootfs
+        if: github.event_name == 'release'
         run: |
-          ID=$(docker create ghcr.io/michaelw/dhcpcd:${{ steps.meta.outputs.version }})
-          docker export "$ID" | bzip2 > "dhcpcd-rootfs_${{ steps.meta.outputs.version }}_${{ matrix.platform.slug }}.tar.bz2"
+            ID=$(docker create ghcr.io/michaelw/dhcpcd:${{ steps.meta.outputs.version }})
+            DIST="dhcpcd-rootfs_${{ steps.meta.outputs.version }}_${{ matrix.platform.slug }}.tar.bz2"
+            docker export "$ID" | bzip2 > "$DIST"
+            echo "::set-output name=asset_path::${DIST}"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-release-asset@v1
+        if: github.event_name == 'release'
         with:
-          path: dhcpcd-rootfs_${{ steps.meta.outputs.version }}_${{ matrix.platform.slug }}.tar.bz2
+            upload_url: ${{ github.event.release.upload_url }}
+            asset_path: ${{ steps.rootfs.outputs.asset_path }}
+            asset_content_type: application/tar+bzip2
