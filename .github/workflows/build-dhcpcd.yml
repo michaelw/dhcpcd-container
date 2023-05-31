@@ -73,8 +73,6 @@ jobs:
         run: |
           ID=$(docker create ghcr.io/michaelw/dhcpcd:${{ steps.meta.outputs.version }})
           docker export "$ID" | bzip2 > "dhcpcd_${{ steps.meta.outputs.version }}_${{ matrix.platform }}.tar.bz2"
-        with:
-          context: .
 
       - uses: actions/upload-artifact@v3
         with:
